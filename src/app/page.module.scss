@@ -1,0 +1,352 @@
+// 页面级样式（CSS Modules）
+// 玻璃拟态 · 青绿清新风
+// 所有类名均与 page.tsx 中 styles.xxx 一一对应，并按 DOM 结构嵌套组织
+
+.page {
+  // 页面容器：垂直居中排版，内容限宽
+  min-height: 100vh;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 48px 24px 64px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  // 顶部导航区域（毛玻璃背景容器）
+  .navHeader {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 32px;
+    padding: 40px 32px;
+    border-radius: 24px;
+    background: var(--glass-bg-strong);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 8px 32px rgba(255, 255, 255, 0.4);
+
+    // 页面标题
+    .title {
+      font-size: clamp(2.2rem, 6vw, 3.6rem);
+      font-weight: 800;
+      letter-spacing: 2px;
+      color: var(--text-primary);
+
+      // 标题渐变文字
+      .titleGradient {
+        background: var(--accent-gradient);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      // 标题下划线（渐变细条）
+      .titleUnderline {
+        width: 20%;
+        height: 5px;
+        margin: 14px auto 0;
+        border-radius: 999px;
+        background: var(--accent-gradient);
+      }
+    }
+
+    // 副标题
+    .subtitle {
+      margin-top: 16px;
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+    }
+
+    // GitHub 链接（毛玻璃胶囊按钮）
+    .headerGithubLink {
+      display: inline-flex;
+      margin-top: 24px;
+      border-radius: 999px;
+      background: var(--glass-bg-strong);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 4px 16px rgba(255, 255, 255, 0.35);
+      transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+
+      a {
+        display: inline-flex;
+        align-items: center;
+        padding: 10px 22px;
+        gap: 8px;
+        text-decoration: none;
+        color: var(--text-primary);
+        font-size: 0.95rem;
+        font-weight: 600;
+
+        svg {
+          width: 18px;
+          height: 18px;
+        }
+      }
+
+      &:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 24px rgba(255, 255, 255, 0.5);
+      }
+    }
+  }
+
+  // 主体内容区域（毛玻璃背景容器）
+  .section {
+    width: 100%;
+    padding: 32px;
+    border-radius: 24px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 8px 32px rgba(255, 255, 255, 0.4);
+
+    // 区块头部
+    .sectionHeader {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 24px;
+
+      // 区块标题
+      .sectionTitle {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--text-primary);
+
+        // 标题图标
+        .sectionIcon {
+          width: 22px;
+          height: 22px;
+          color: var(--bg-gradient-start);
+        }
+      }
+
+      // 区块描述
+      .sectionDescription {
+        font-size: 0.9rem;
+        color: var(--text-muted);
+      }
+    }
+
+    // 项目卡片列表：响应式自适应列数网格
+    .sectionList {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+      width: 100%;
+
+      // 单个项目卡片（毛玻璃）
+      .listItem {
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        padding: 18px;
+        border-radius: 20px;
+        background: var(--glass-bg);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid var(--glass-border);
+        box-shadow: 0 8px 24px rgba(255, 255, 255, 0.35);
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease,
+          border-color 0.3s ease;
+
+        // 悬停上浮 + 发光边框
+        &:hover {
+          transform: translateY(-6px);
+          box-shadow: 0 16px 40px rgba(255, 255, 255, 0.55);
+          border-color: rgba(255, 255, 255, 0.9);
+        }
+
+        // 项目标题
+        .projectTitle {
+          font-size: 1.15rem;
+          font-weight: 700;
+          color: var(--text-primary);
+          margin-bottom: 10px;
+        }
+
+        // 项目描述（全部展示，不省略）
+        .projectDescription {
+          font-size: 0.9rem;
+          line-height: 1.6;
+          color: var(--text-secondary);
+          padding-bottom: 12px;
+        }
+
+        // 项目状态区域（margin-top: auto 使其与底部操作区一起贴靠卡片底部）
+        .projectStatus {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 12px;
+          margin-top: auto;
+          margin-bottom: 12px;
+          padding: 0 12px;
+          // 状态项（圆点 + 文本）
+          .statusItem {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+
+            // 状态指示灯：三色随动态类切换
+            .statusIndicator {
+              width: 9px;
+              height: 9px;
+              border-radius: 50%;
+              background: var(--not-launched);
+
+              // 在线：绿色 + 光晕
+              &.online {
+                background: var(--online);
+                box-shadow: 0 0 8px var(--online);
+              }
+
+              // 离线：红色 + 光晕
+              &.offline {
+                background: var(--offline);
+                box-shadow: 0 0 8px var(--offline);
+              }
+
+              // 未上线：灰色
+              &.not-launched {
+                background: var(--not-launched);
+              }
+            }
+
+            // 状态文本
+            .statusLabel {
+              font-size: 0.82rem;
+              color: var(--text-secondary);
+            }
+          }
+
+          // 写作状态标签文案
+          .writeStatusLabel {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+          }
+
+          // 写作状态标签：四种状态配色
+          .writeStatus {
+            font-size: 0.78rem;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 999px;
+            background: rgba(148, 163, 184, 0.16);
+            color: var(--status-nodev);
+
+            &.completed {
+              background-color: rgba(16, 185, 129, 0.1);
+              color: #10b981;
+            }
+
+            &.inProgress {
+              background-color: rgba(245, 158, 11, 0.1);
+              color: #f59e0b;
+            }
+
+            &.maintenance {
+              background-color: rgba(59, 130, 246, 0.1);
+              color: #3b82f6;
+            }
+
+            // 未开发：灰色
+            &.noDevelop {
+              background-color: rgba(107, 114, 128, 0.1);
+              color: #6b7280;
+            }
+          }
+        }
+
+        // 卡片底部操作区（定高 + 明显的上分割线，贴靠卡片底部）
+        .projectCardFooter {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          height: 36px;
+          box-sizing: content-box;
+          padding-top: 12px;
+
+          // 项目链接（毛玻璃小按钮）
+          .projectLink {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.45);
+            border: 1px solid var(--glass-border);
+            transition:
+              background 0.25s ease,
+              transform 0.25s ease;
+
+            svg {
+              width: 16px;
+              height: 16px;
+            }
+
+            // 链接箭头图标
+            .linkArrow {
+              transition: transform 0.25s ease;
+            }
+
+            &:hover {
+              background: rgba(255, 255, 255, 0.75);
+
+              // 悬停时箭头右移，形成引导动效
+              .linkArrow {
+                transform: translateX(3px);
+              }
+            }
+          }
+        }
+
+        // 卡片背景装饰：右上角渐变光晕，被 overflow 裁剪
+        .projectCardBg {
+          position: absolute;
+          top: -40px;
+          right: -40px;
+          width: 140px;
+          height: 140px;
+          border-radius: 50%;
+          background: radial-gradient(
+            circle,
+            var(--spot-blue),
+            transparent 70%
+          );
+          pointer-events: none;
+        }
+      }
+    }
+  }
+
+  // 移动端适配：收紧留白、区块标题纵向排列
+  @media (max-width: 640px) {
+    padding: 32px 16px 48px;
+
+    .navHeader {
+      margin-bottom: 40px;
+    }
+
+    .section .sectionHeader {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 6px;
+    }
+  }
+}

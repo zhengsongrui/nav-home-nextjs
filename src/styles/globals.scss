@@ -1,0 +1,145 @@
+/* ============================================================
+   全局样式 —— 玻璃拟态（青绿清新风）
+   定义设计令牌（颜色变量）、基础重置与页面渐变/光斑背景
+   ============================================================ */
+
+/* ---------- 设计令牌：颜色 ---------- */
+:root {
+  /* 页面底色渐变（天蓝 → 青 → 淡紫） */
+  --bg-gradient-start: #0ea5e9;
+  --bg-gradient-mid: #22d3ee;
+  --bg-gradient-end: #a78bfa;
+
+  /* 背景光斑色 */
+  --spot-teal: rgba(45, 212, 191, 0.55); /* 青 */
+  --spot-blue: rgba(56, 189, 248, 0.5); /* 天蓝 */
+  --spot-purple: rgba(167, 139, 250, 0.5); /* 淡紫 */
+
+  /* 毛玻璃质感 */
+  --glass-bg: rgba(255, 255, 255, 0.55);
+  --glass-bg-strong: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.6);
+
+  /* 文本颜色 */
+  --text-primary: #1e293b;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+
+  /* 强调渐变（标题/下划线/发光共用） */
+  --accent-gradient: linear-gradient(90deg, #0ea5e9, #22d3ee, #a78bfa);
+
+  /* 在线状态三色 */
+  --online: #10b981;
+  --offline: #ef4444;
+  --not-launched: #94a3b8;
+
+  /* 写作状态四色 */
+  --status-completed: #10b981;
+  --status-progress: #3b82f6;
+  --status-maintain: #f59e0b;
+  --status-nodev: #94a3b8;
+}
+
+/* ---------- 基础重置 ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  /* 青绿 → 淡紫 渐变底色，随滚动固定，增强玻璃透光层次 */
+  min-height: 100vh;
+  background: linear-gradient(
+    135deg,
+    var(--bg-gradient-start),
+    var(--bg-gradient-mid) 50%,
+    var(--bg-gradient-end)
+  );
+  background-attachment: fixed;
+  overflow-x: hidden;
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui,
+    -apple-system, sans-serif;
+  color: var(--text-primary);
+}
+
+/* ---------- 背景光斑层（玻璃拟态的透光底层） ---------- */
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  z-index: -1; /* 置于背景之上、页面内容之下 */
+  border-radius: 50%;
+  filter: blur(70px);
+  pointer-events: none;
+}
+
+/* 左上主光斑：青色，box-shadow 额外扩展一处天蓝光斑 */
+body::before {
+  top: -10%;
+  left: -8%;
+  width: 45vw;
+  height: 45vw;
+  background: radial-gradient(circle, var(--spot-teal), transparent 70%);
+  box-shadow: 48vw 32vh 0 -18vw var(--spot-blue);
+  animation: drift 26s ease-in-out infinite alternate;
+}
+
+/* 右下主光斑：淡紫，box-shadow 额外扩展一处柔和亮斑 */
+body::after {
+  bottom: -12%;
+  right: -8%;
+  width: 50vw;
+  height: 50vw;
+  background: radial-gradient(circle, var(--spot-purple), transparent 70%);
+  box-shadow: -42vw -18vh 0 -20vw rgba(255, 255, 255, 0.35);
+  animation: drift 32s ease-in-out infinite alternate-reverse;
+}
+
+/* 光斑缓慢漂移动画（幅度克制，营造氛围） */
+@keyframes drift {
+  from {
+    transform: translate(0, 0) scale(1);
+  }
+  to {
+    transform: translate(6vw, 4vh) scale(1.15);
+  }
+}
+
+/* ---------- 滚动条美化 ---------- */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.75);
+}
+
+/* ---------- 动效降级：用户偏好减少动效时关闭动画 ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  body::before,
+  body::after {
+    animation: none;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
