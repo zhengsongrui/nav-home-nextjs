@@ -45,7 +45,9 @@ async function checkServiceStatus(url?: string): Promise<ServiceStatus> {
 
     const startTime = Date.now();
     // fetch 不会因 HTTP 错误状态码 reject，天然等价于 axios 的 validateStatus(200-499)
+    // cache: 'no-store' 关闭 Next.js 对 fetch 的 Data Cache，确保每次请求都实时健康检查，避免返回陈旧的 200 结果
     const response = await fetch(url, {
+      cache: 'no-store', // 关闭 Next.js 数据缓存，保证每次都是真实探测
       signal: AbortSignal.timeout(5000), // 5 秒超时
     });
     return {
