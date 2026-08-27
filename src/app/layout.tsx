@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "@/styles/globals.scss";
+import Helper from "@/components/Helper/Helper";
 
 
 export const metadata: Metadata = {
@@ -16,6 +17,8 @@ export default function RootLayout({
     <html lang="zh">
       <body>
         {children}
+        {/* 全站悬浮 AI 助手 */}
+        <Helper />
       </body>
     </html>
   );

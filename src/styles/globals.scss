@@ -112,21 +112,6 @@ body::after {
   }
 }
 
-/* ---------- 滚动条美化 ---------- */
-::-webkit-scrollbar {
-  width: 10px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.5);
-  border-radius: 999px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.75);
-}
-
 /* ---------- 动效降级：用户偏好减少动效时关闭动画 ---------- */
 @media (prefers-reduced-motion: reduce) {
   html {

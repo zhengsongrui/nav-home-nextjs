@@ -350,3 +350,57 @@
     }
   }
 }
+
+// 离线提示弹窗：全屏遮罩 + 居中毛玻璃卡片
+.modalMask {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+
+  // 弹窗卡片（毛玻璃）
+  .modal {
+    width: min(360px, 86vw);
+    padding: 28px 24px 22px;
+    border-radius: 20px;
+    text-align: center;
+    background: var(--glass-bg-strong);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 16px 48px rgba(255, 255, 255, 0.5);
+
+    // 提示文案
+    .modalText {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--text-primary);
+      margin-bottom: 20px;
+    }
+
+    // "知道了"按钮（纯色胶囊，简洁不花哨）
+    .modalBtn {
+      cursor: pointer;
+      border: none;
+      padding: 8px 26px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #fff;
+      background: var(--text-primary);
+      transition:
+        background 0.25s ease,
+        transform 0.25s ease;
+
+      &:hover {
+        background: var(--text-secondary);
+        transform: translateY(-2px);
+      }
+    }
+  }
+}

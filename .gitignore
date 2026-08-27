@@ -34,3 +34,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# 访问记录数据文件（由 /api/visits 动态写入，不入库）
+/data/
