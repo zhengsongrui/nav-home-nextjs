@@ -1,5 +1,4 @@
-import type { Project } from '@/types/projects';
-
+import type { Project } from "@/types/projects";
 
 export const projects: Project[] = [
   {
@@ -11,6 +10,15 @@ export const projects: Project[] = [
     github:
       "https://github.com/zhengsongrui/live2dAssistant/tree/main/live2dNode",
     writeStatus: "已完成",
+  },
+  {
+    id: 10,
+    name: "三角洲数据实验室",
+    description:
+      "专注于三角洲行动枪械数据分析，提供 DPS、TTK、BTK、伤害、射程等核心数据的计算与可视化，帮助玩家直观了解枪械性能，科学选择武器与配装。",
+    url: "http://deltaLab.zhengsongrui.life/",
+    github: "https://github.com/zhengsongrui/DeltaLab",
+    writeStatus: "开发中",
   },
   {
     id: 2,

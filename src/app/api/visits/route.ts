@@ -16,6 +16,12 @@ const getErrorMessage = (error: unknown) => {
   return e?.message || '未知错误';
 };
 
+// 获取当前北京时间（UTC+8），返回带时区标识的 ISO 格式字符串
+const getBeijingTime = (): string => {
+  // 在 UTC 时间戳上增加 8 小时，并补上 +08:00 时区标识
+  return new Date(Date.now() + 8 * 60 * 60 * 1000).toISOString().replace('Z', '+08:00');
+};
+
 // 从请求头中提取访问者 IP（兼容反向代理转发的 x-forwarded-for）
 const getClientIp = (request: NextRequest): string => {
   const forwarded = request.headers.get('x-forwarded-for');
@@ -32,7 +38,7 @@ export async function POST(request: NextRequest) {
     // 组装单条访问记录
     const record = {
       ip: getClientIp(request), // 访问者 IP
-      time: new Date().toISOString(), // 访问时间（ISO 格式）
+      time: getBeijingTime(), // 访问时间（北京时间，ISO 格式）
       location, // 访问位置
     };
 
