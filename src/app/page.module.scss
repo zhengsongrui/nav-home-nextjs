@@ -332,6 +332,15 @@
           pointer-events: none;
         }
       }
+
+      // 加载中占位：请求 /api/projects 期间显示，横跨整行并居中
+      .loading {
+        grid-column: 1 / -1;
+        padding: 32px 0;
+        text-align: center;
+        font-size: 0.95rem;
+        color: var(--text-muted);
+      }
     }
   }
 

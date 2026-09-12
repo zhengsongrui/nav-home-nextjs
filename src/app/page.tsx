@@ -57,6 +57,8 @@ const sendVisit = (location: string) => {
 export default function Home() {
   // 项目列表数据，初始为空数组
   const [projects, setProjects] = useState<ProjectsApiResponse["projects"]>([]);
+  // 项目列表加载状态：请求 /api/projects 期间为 true，请求结束（成功或失败）置为 false
+  const [loading, setLoading] = useState(true);
   // 是否显示离线提示弹窗（点击"访问"且项目不在线时置为 true）
   const [showOfflineModal, setShowOfflineModal] = useState(false);
 
@@ -65,7 +67,8 @@ export default function Home() {
     fetch("/api/projects")
       .then((res) => res.json())
       .then((data: ProjectsApiResponse) => setProjects(data.projects))
-      .catch((err) => console.error("获取项目列表失败:", err));
+      .catch((err) => console.error("获取项目列表失败:", err))
+      .finally(() => setLoading(false)); // 请求结束（无论成功失败）关闭 loading
 
     // 记录本次进入首页的访问
     sendVisit("进入首页");
@@ -101,6 +104,8 @@ export default function Home() {
           </p>
         </div>
         <div className={styles.sectionList}>
+          {/* 请求中显示加载占位，避免请求期间内容空白 */}
+          {loading && <div className={styles.loading}>项目加载中…</div>}
           {projects.map((project) => (
             <div className={styles.listItem} key={project.id}>
                 <h3 className={styles.projectTitle}>{project.name}</h3>

@@ -48,7 +48,15 @@ export async function GET(request: NextRequest) {
       signal: AbortSignal.timeout(AI_TIMEOUT),
     });
 
-    // 上游异常时统一返回 500 纯文本文案
+    // 本项目约定：上游返回 404 即视为 AI 服务未启动，返回 503 供前端弹出提示
+    if (upstream.status === 404) {
+      return new Response('服务未启动，请联系开发者启动AI语音Agent后端。', {
+        status: 503,
+        headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+      });
+    }
+
+    // 其他上游异常状态统一返回 500 纯文本文案
     if (!upstream.ok) {
       return new Response(`哎呀，出错了：上游返回 ${upstream.status}`, {
         status: 500,
@@ -79,8 +87,10 @@ export async function GET(request: NextRequest) {
       headers: { 'Content-Type': 'text/plain; charset=utf-8' },
     });
   } catch (error) {
-    return new Response('哎呀，出错了：' + getErrorMessage(error), {
-      status: 500,
+    // 上游 AI 服务无法调通（未启动 / 网络异常 / 超时）：返回 503，前端据此弹出"服务未启动"提示
+    console.error('调用 AI 服务失败:', getErrorMessage(error));
+    return new Response('服务未启动，请联系开发者启动AI语音Agent后端。', {
+      status: 503,
       headers: { 'Content-Type': 'text/plain; charset=utf-8' },
     });
   }

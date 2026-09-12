@@ -105,4 +105,45 @@
       color: #fff;
     }
   }
+
+  // AI 服务未启动提示弹窗遮罩
+  .serviceMask {
+    position: fixed;
+    inset: 0;
+    z-index: 1001;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.4);
+  }
+
+  // 弹窗主体（白色卡片）
+  .serviceModal {
+    width: min(340px, 86vw);
+    padding: 24px;
+    text-align: center;
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  }
+
+  // 提示文案
+  .serviceText {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #333;
+    margin-bottom: 18px;
+  }
+
+  // "知道了"按钮（主题渐变）
+  .serviceBtn {
+    cursor: pointer;
+    border: none;
+    padding: 8px 24px;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #fff;
+    background: linear-gradient(90deg, #0ea5e9, #22d3ee);
+  }
 }

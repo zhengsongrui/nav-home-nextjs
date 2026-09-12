@@ -16,7 +16,7 @@ export const projects: Project[] = [
     name: "三角洲数据实验室",
     description:
       "专注于三角洲行动枪械数据分析，提供 DPS、TTK、BTK、伤害、射程等核心数据的计算与可视化，帮助玩家直观了解枪械性能，科学选择武器与配装。",
-    url: "http://deltaLab.zhengsongrui.life/",
+    url: "https://deltaLab.zhengsongrui.life/",
     github: "https://github.com/zhengsongrui/DeltaLab",
     writeStatus: "开发中",
   },

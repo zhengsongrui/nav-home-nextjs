@@ -52,16 +52,25 @@ const typewriter = (text: string, setText: (t: string) => void) =>
 export default function useAiChat() {
   // AI 回复文案（初始为欢迎语）
   const [aiReply, setAiReply] = useState("您好，我是您的AI小助手，有问题可以点我。");
+  // AI 后端服务是否未启动（true 时由 Helper 弹出提示）
+  const [serviceDown, setServiceDown] = useState(false);
 
   // 调用后端 AI 聊天接口（接口配置收口在 /api/ai/chat），返回值填入气泡
   const fetchAiReply = async (text: string) => {
     setAiReply("思考中…");
+    setServiceDown(false); // 每次请求前重置服务状态
     try {
       // 流式：携带 chatStream=true，先收集完整回复再打字机渲染
       if (USE_CHAT_STREAM) {
         const response = await fetch(
           `/api/ai/chat?text=${encodeURIComponent(text)}&chatStream=true`,
         );
+        // 503：/api/ai/chat 判定上游 AI 服务无法调通，弹出"服务未启动"提示
+        if (response.status === 503) {
+          setServiceDown(true);
+          setAiReply("AI 服务未启动");
+          return;
+        }
         if (!response.ok) {
           setAiReply("哎呀，出错了：" + (await response.text()));
           return;
@@ -78,16 +87,29 @@ export default function useAiChat() {
 
       // 非流式：直接读取纯文本回复，无打字机效果
       const response = await fetch(`/api/ai/chat?text=${encodeURIComponent(text)}`);
+      // 503：/api/ai/chat 判定上游 AI 服务无法调通，弹出"服务未启动"提示
+      if (response.status === 503) {
+        setServiceDown(true);
+        setAiReply("AI 服务未启动");
+        return;
+      }
       if (!response.ok) {
         setAiReply("哎呀，出错了：" + (await response.text()));
         return;
       }
       const reply = await response.text();
       setAiReply(reply || "AI 没有返回内容");
-    } catch (error) {
-      setAiReply("哎呀，出错了：" + (error instanceof Error ? error.message : "网络异常"));
+    } catch {
+      // fetch 抛错说明后端服务无法调通，弹出"服务未启动"提示
+      setServiceDown(true);
+      setAiReply("AI 服务未启动");
     }
   };
 
-  return { aiReply, fetchAiReply };
+  return {
+    aiReply,
+    fetchAiReply,
+    serviceDown, // AI 后端是否未启动
+    closeServiceDown: () => setServiceDown(false), // 关闭提示弹窗
+  };
 }

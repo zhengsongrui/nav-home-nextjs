@@ -8,8 +8,8 @@ import useHelperDialog from "@/hooks/useHelperDialog";
 
 // 智能助手组件：悬浮小狗图标 + AI 回复气泡 + 提问对话框
 export default function Helper() {
-  // AI 聊天 Hook：回复文案 + 接口请求逻辑
-  const { aiReply, fetchAiReply } = useAiChat();
+  // AI 聊天 Hook：回复文案 + 接口请求逻辑 + 服务未启动提示
+  const { aiReply, fetchAiReply, serviceDown, closeServiceDown } = useAiChat();
   // 对话框 Hook：显隐、输入、提交（提交时回调 fetchAiReply 发请求）
   const {
     dialogVisible,
@@ -57,6 +57,27 @@ export default function Helper() {
                 发送
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* AI 服务未启动提示弹窗：点击遮罩或"知道了"按钮关闭 */}
+      {serviceDown && (
+        <div className={styles.serviceMask} onClick={closeServiceDown}>
+          <div
+            className={styles.serviceModal}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <p className={styles.serviceText}>
+              服务未启动，请联系开发者启动AI语音Agent后端。
+            </p>
+            <button
+              type="button"
+              className={styles.serviceBtn}
+              onClick={closeServiceDown}
+            >
+              知道了
+            </button>
           </div>
         </div>
       )}
